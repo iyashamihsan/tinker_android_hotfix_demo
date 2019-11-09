@@ -13,4 +13,11 @@ Before case- when app has a bug, null exception.
 
 After Hotfix Patch Applied - Bug Fixed 
 
-![](20191110_024810.gif)
+![](20191110_024810.gif)  
+
+
+
+# Libraries Used  
+[Tinker Hot-fix solution](https://github.com/Tencent/tinker)  
+[Retrofit](https://github.com/square/retrofit)  
+[PR-Downloader](https://github.com/MindorksOpenSource/PRDownloader)
