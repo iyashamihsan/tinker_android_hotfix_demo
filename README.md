@@ -10,6 +10,6 @@ Before case- when app has a bug, null exception.
 
 ![](20191110_025058.gif)
 
-After Hotfix- Bug Fixed 
+After Hotfix Patch Applied - Bug Fixed 
 
 ![](20191110_024810.gif)
