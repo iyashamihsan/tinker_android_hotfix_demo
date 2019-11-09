@@ -33,6 +33,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/tv_message"
+        android:visibility="gone"
         android:text="load patch"/>
 
     <Button
@@ -42,6 +43,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/loadPatch"
+        android:visibility="gone"
         android:text="load library"/>
 
     <Button

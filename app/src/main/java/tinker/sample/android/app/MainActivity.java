@@ -28,6 +28,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -173,8 +175,10 @@ public class MainActivity extends AppCompatActivity {
         bugTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "Bug Fixed", Toast.LENGTH_SHORT).show();
-                bugTest.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
+                // try to do crash
+                // hotfix testing
+                Toast.makeText(MainActivity.this, "Bug Fixed", Toast.LENGTH_SHORT).show(); // display toast
+                bugTest.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light)); //turn green on bug fixed
             }
         });
     }
@@ -314,7 +318,6 @@ public class MainActivity extends AppCompatActivity {
         //show the dialog
         progressBarDialog.show();
 
-        //String url = "https://player.vimeo.com/external/286929833.sd.mp4?s=22f74560cd6a77bbd91799b2a709047e45a500c4&profile_id=164";
         downloadIdOne = PRDownloader.download(patchUrl, Utils.getRootDirPath(MainActivity.this), "patch_signed_7zip.apk")
                 .build()
                 .setOnStartOrResumeListener(new OnStartOrResumeListener() {
@@ -337,7 +340,7 @@ public class MainActivity extends AppCompatActivity {
                         downloadIdOne = 0;
                         progressBarDialog.setProgress(0);
                         progressBarDialog.dismiss();
-                        //deleteVidFile(videoURL);
+
                     }
                 })
                 .setOnProgressListener(new OnProgressListener() {
@@ -357,14 +360,6 @@ public class MainActivity extends AppCompatActivity {
                         progressBarDialog.dismiss();
                         // load patch
                         loadPatch();
-                        /*if (checkPatchExist()){
-
-                            showToast("patch found");
-                        }
-                        else {
-
-                            showToast("Patch file not found!");
-                        }*/
                     }
 
                     @Override
@@ -487,7 +482,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (checkPatchExist()){
 
-            showToast("patch applying...");
+            showToast("Patch applying...");
             File file = new File(getExternalFilesDirs(null)[0],"patch_signed_7zip.apk");
             TinkerInstaller.onReceiveUpgradePatch(getApplicationContext(),file.getAbsolutePath() ); //Environment.getExternalStorageDirectory().getAbsolutePath() + "/patch_signed_7zip.apk"
         }
@@ -516,19 +511,26 @@ public class MainActivity extends AppCompatActivity {
 
             if(responseObject != null) {
                 UserPrefs.getInstance(MainActivity.this).saveString(AppConstant.PATCH_ID, responseObject.getPatchId());
+                showToast("Patch Applied - Restarting app");
+                /*Handler handler = new Handler(Looper.getMainLooper());
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        //Do something after 2sec
+                        showToast("Patch Applied! - Restart app");
+                        //restartProcess();
+                    }
+                }, 2000);*/
 
-                showToast("Patch Applied! - restarting process");
-
-                restartProcess();
             }
             else {
 
-                showToast("something went wrong!");
+                showToast("Something went wrong!");
             }
         }
         else {
 
-            showToast("not applied!");
+            showToast("Patch not applied!");
         }
     };
 

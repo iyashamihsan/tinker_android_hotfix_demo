@@ -87,7 +87,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "tinker.sample.android"
+        applicationId "tinker.sample.android1"
         minSdkVersion 21
         targetSdkVersion 26
         versionCode 1
@@ -207,7 +207,7 @@ if (buildWithTinker()) {
          * add apk from the build/bakApk
          */
         //oldApk = getOldApkPath()
-        oldApk = "${bakPath}/app-debug-1110-01-16-19.apk"
+        oldApk = "${bakPath}/app-debug-1110-02-09-27.apk"
         /**
          * optional，default 'false'
          * there are some cases we may get some warnings
