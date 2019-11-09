@@ -11,7 +11,7 @@ Before case- when app has a bug, null exception.
 
 ![](20191110_025058.gif)
 
-After Hotfix Patch Applied - Bug Fixed 
+After Hot-fix Patch Applied - Bug Fixed without re-install apk
 
 ![](20191110_024810.gif)  
 
