@@ -21,15 +21,12 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.pm.ConfigurationInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -52,9 +49,7 @@ import com.downloader.PRDownloader;
 import com.downloader.Progress;
 import com.downloader.Status;
 import com.tencent.tinker.lib.library.TinkerLoadLibrary;
-import com.tencent.tinker.lib.listener.PatchListener;
 import com.tencent.tinker.lib.service.AbstractResultService;
-import com.tencent.tinker.lib.service.DefaultTinkerResultService;
 import com.tencent.tinker.lib.tinker.Tinker;
 import com.tencent.tinker.lib.tinker.TinkerInstaller;
 import com.tencent.tinker.lib.util.TinkerLog;
@@ -68,12 +63,11 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.io.File;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 import tinker.sample.android.R;
 import tinker.sample.android.eventsmodel.MessageEvent;
 import tinker.sample.android.models.ConfigResponseObject;
-import tinker.sample.android.reporter.SamplePatchListener;
+import tinker.sample.android.servercom.CustomCallBack;
 import tinker.sample.android.servercom.GetDataService;
 import tinker.sample.android.servercom.RetrofitClientInstance;
 import tinker.sample.android.util.AppConstant;
@@ -84,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = "Tinker.MainActivity";
     private static Class<? extends AbstractResultService> resultServiceClass = null;
 
-    ProgressDialog progressDoalog;
     private TextView mTvMessage = null;
     int downloadIdOne;
     String patchUrl = "";
@@ -107,9 +100,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         mTvMessage = findViewById(R.id.tv_message);
-
-        progressDoalog = new ProgressDialog(MainActivity.this);
-        progressDoalog.setMessage("Loading....");
 
         askForRequiredPermissions();
 
@@ -407,14 +397,14 @@ public class MainActivity extends AppCompatActivity {
 
     private void fetchConfig(){
 
-        progressDoalog.show();
-
         GetDataService service = RetrofitClientInstance.getRetrofitInstance().create(GetDataService.class);
         Call<ConfigResponseObject> call = service.getConfig();
-        call.enqueue(new Callback<ConfigResponseObject>() {
+
+        call.enqueue(new CustomCallBack<ConfigResponseObject>(MainActivity.this) {
             @Override
             public void onResponse(Call<ConfigResponseObject> call, Response<ConfigResponseObject> response) {
-                progressDoalog.dismiss();
+
+                super.onResponse(call,response);
 
                 if (response.body()!=null){
 
@@ -460,7 +450,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ConfigResponseObject> call, Throwable t) {
-                progressDoalog.dismiss();
+                super.onFailure(call,t);
                 Toast.makeText(MainActivity.this, "Something went wrong...Please try later!", Toast.LENGTH_SHORT).show();
             }
         });
@@ -512,15 +502,6 @@ public class MainActivity extends AppCompatActivity {
             if(responseObject != null) {
                 UserPrefs.getInstance(MainActivity.this).saveString(AppConstant.PATCH_ID, responseObject.getPatchId());
                 showToast("Patch Applied - Restarting app");
-                /*Handler handler = new Handler(Looper.getMainLooper());
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //Do something after 2sec
-                        showToast("Patch Applied! - Restart app");
-                        //restartProcess();
-                    }
-                }, 2000);*/
 
             }
             else {
