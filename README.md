@@ -1,4 +1,5 @@
-# Tinker_android_hotfix Example
+# Tinker android Hot-fix Example
+### Tinker_android_hotfix example demo
 Android Hotfix demo app using Tinker Hotfix solution. we can fix bug, update dex, library and resources without reinstall apk.
 Based on config api call
 then download patch file from backend server and then apply the patch.
@@ -17,7 +18,7 @@ After Hot-fix Patch Applied - Bug Fixed without re-install apk
 
 
 
-# Libraries Used  
-[Tinker Hot-fix solution](https://github.com/Tencent/tinker)  
+# Libraries Used:  
+[Tinker Hot-fix solution by Tencent](https://github.com/Tencent/tinker)  
 [Retrofit](https://github.com/square/retrofit)  
 [PR-Downloader](https://github.com/MindorksOpenSource/PRDownloader)
